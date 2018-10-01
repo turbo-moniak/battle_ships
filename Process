@@ -1,0 +1,15 @@
+1. Player is prompted for a name
+2. An empty board is printed
+3. Player is prompted to name a ship to place
+    a. The name is checked against available ships
+        i. While name is not available go back to 3
+        ii. Else:
+            1. Set coordinate X
+                a. Check if X is inside the board
+            2. Set coordinate Y
+                a. Check if Y is inside the board
+            3. Set direction (N, S, W, E)
+                a. Check if ship places towards the given direction stays entirely inside the board
+                b. Check if there are no other ships on the way
+                c. Check if there are no other ships in direct proximity of the ship
+        iii. If all return True add ship to ${placed_ships}

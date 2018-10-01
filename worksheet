@@ -1,0 +1,57 @@
+# def create_empty_ships(self, health_points, quantity):
+    #     self.ships_positions = [[] * self.health_points for i in range(quantity)]
+    #
+    #     return self.ships_positions
+    #
+    # def get_ship_name(self):
+    #
+    #     print("You have 1 Battleship, 2 Cruisers, 3 Destroyers and 4 Submarines")
+    #     name = input("Which ship do you want to place on the board?: ").lower()
+    #     return name
+    #
+    # def get_ship_coordinates(self):
+    #
+    #     coordinate_x = int(input("X coordinate for your ship (row 1-10)?: "))
+    #     while type(coordinate_x) != int or coordinate_x < 1 and coordinate_x > 10:
+    #         coordinate_x = int(input("X coordinate for your ship (row 1-10)?: "))
+    #
+    #     coordinate_y = (input("Y coordinate for your ship (col A-J)?: ")).lower()
+    #
+    #     return [coordinate_x, coordinate_y]
+    #
+    # def get_ship_direction(self):
+    #     self.direction = input("Which direction do you want to place the ship (N, S, W, E)?: ").lower()
+    #
+    #     return self.direction
+
+    # def get_ship_data(self):
+    #
+    #     ships = {'battleship': 4, 'cruiser': 3, 'destroyer': 2, 'submarine': 1}
+    #     coordinates_mapping = {"a":1, "b":2, "c":3, "d":4, "e":5, "f":6, "g":7, "h":8, "i":9, "j":10}
+    #     directions = ['n', 's', 'w', 'e']
+    #
+    #     name = Ship.get_ship_name()
+    #
+    #     while name not in ships:
+    #         print("There is no ship '" + name + "' available! Try again.")
+    #         name = input("Which ship do you want to place on the board?: ").lower()
+    #
+    #     coordinates = Ship.get_ship_coordinates()
+    #
+    #     direction = Ship.get_ship_direction()
+    #
+    #     while direction not in directions:
+    #         direction = Ship.get_ship_direction()
+    #
+    #     return [ships[name], coordinates[0], coordinates_mapping[coordinates[1]], direction]
+
+    Can't place destroyer at 4b towards w because there is another ship nearby at 3j - CHECK
+    You don't have more 'ship_name', select another one to place on the board
+
+
+
+
+
+
+
+
