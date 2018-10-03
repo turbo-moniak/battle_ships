@@ -1,7 +1,6 @@
 from player import Player1, Player2
 from board import Own, Enemy, Board
 from game_operations import start_game, sink_ships
-from ship import coordinates_mapping
 
 
 class Game(object):
@@ -17,8 +16,8 @@ class Game(object):
 
 game = Game()
 start_game(game)
-# print(game.player.fleet)
-# sink_ships(game, coordinates_mapping)
+print(game.player.fleet)
+sink_ships(game)
 
 
 

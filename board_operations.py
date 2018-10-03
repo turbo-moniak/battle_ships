@@ -26,6 +26,7 @@ def print_boards(own, enemy, player_name, enemy_name):
 
     """Prints a string representation of a board."""
     print()
+
     print(" " + str(player_name) + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + str(enemy_name))
     for i in range(own.size):
         if i == 0:
@@ -86,49 +87,52 @@ def update_board(board, fleet, coordinates_mapping):
     return board
 
 
-def there_is_ship_nearby_message(row, y_coordinates, col, i, j):
-    print("Can't anchor your ship at " + str(row) + y_coordinates[col - 1].upper() +
-          " there is another ship nearby at " + str(i) + y_coordinates[j - 1].upper())
+def check_board(width, height, row, col, board):
 
-
-def check_board(width, height, row, col, board, y_coordinates):
-
-    if 1 <= row < 10 and 1 <= col < 10:
-        for i in range(width):
-            for j in range(height):
+    for i in range(height):
+        for j in range(width):
+            if 1 <= row < 10 and 1 <= col < 10:
+                print(row, col, board.board[row][col])
                 if board.board[row][col] != "___":
-                    print(row, col)
-                    there_is_ship_nearby_message(row, y_coordinates, row, i, col)
                     return False
-            row = row + 1
             col = col + 1
+        row = row + 1
+        col = col - width
+
     return True
 
 
 def check_proximity(row, col, size, direction, coordinates_mapping, board, ):
     col = coordinates_mapping[col]
-    y_coordinates = sorted(coordinates_mapping.keys())
 
     result = True
 
     if direction == "n":
         print("direction N")
-        row = row - size + 2
+        row = row - size
         col = col - 1
-        result = check_board(size + 2, 3, row, col, board, y_coordinates)
+        result = check_board(3, size + 2, row, col, board) #width, height
+        if not result:
+            print("Can't anchor your ship here, there is another one nearby.")
     if direction == "s":
         print("direction S")
         row = row - 1
         col = col - 1
-        result = check_board(size + 2, 3, row, col, board, y_coordinates)
+        result = check_board(3, size + 2, row, col, board) #width, height
+        if not result:
+            print("Can't anchor your ship here, there is another one nearby.")
     if direction == "w":
         row = row - 1
-        col = col - size - 1
-        result = check_board(3, size + 2, row, col, board, y_coordinates)
+        col = col - size
+        result = check_board(size + 2, 3, row, col, board) #width, height
+        if not result:
+            print("Can't anchor your ship here, there is another one nearby.")
     if direction == "e":
         row = row - 1
-        col = col + size + 1
-        result = check_board(3, size + 2, row, col, board, y_coordinates)
+        col = col - 1
+        result = check_board(size + 2, 3, row, col, board) #width, height
+        if not result:
+            print("Can't anchor your ship here, there is another one nearby.")
 
     return result
 
