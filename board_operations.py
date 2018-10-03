@@ -24,6 +24,8 @@ def create_board(size):
 
 def print_boards(own, enemy, player_name, enemy_name):
 
+
+
     """Prints a string representation of a board."""
     print()
 
