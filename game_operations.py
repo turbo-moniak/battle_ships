@@ -41,41 +41,36 @@ def sink_ships(game, coordinates_mapping):
 
     while sunken_ships_player < total_ships or sunken_ships_enemy < total_ships:
         bomb_your_enemy(game.player.name,
-                        game.board,
                         game.empty_board_player,
                         game.enemy.name,
                         game.board_enemy,
                         coordinates_mapping)
 
-    # was_hit = True
-    #
+    was_hit = True
 
-    #
-    # was_hit = True
-    #
-    # while was_hit:
-    #     print(game.enemy.name + "'s turn")
-    #
-    #     print_boards(game.board_enemy, game.empty_board_enemy, game.enemy.name, game.player.name)
-    #
-    #     try:
-    #         x = int(input("Coordinate X for your bomb: "))
-    #     except ValueError:
-    #         x = input("Coordinate X is a number between 1-10. Try again: ")
-    #     y = input("Coordinate Y for your bomb: ")
-    #     while y not in coordinates_mapping:
-    #         y = input("The Y coordinate for your bomb is a col between A-J. Try again: ")
-    #
-    #     coordinates = [x, y]
-    #
-    #     x = coordinates[0]
-    #     y = coordinates_mapping[coordinates[1]]
-    #
-    #     if game.board_player.board[x][y] == " X ":
-    #         game.empty_board_enemy.board[x][y] = " X "
-    #     else:
-    #         was_hit = False
-    #     print_boards(game.board_enemy, game.empty_board_enemy, game.enemy.name, game.player.name)
+    while was_hit:
+        print(game.enemy.name + "'s turn")
+
+        print_boards(game.board_enemy, game.empty_board_enemy, game.enemy.name, game.player.name)
+
+        try:
+            x = int(input("Coordinate X for your bomb: "))
+        except ValueError:
+            x = input("Coordinate X is a number between 1-10. Try again: ")
+        y = input("Coordinate Y for your bomb: ")
+        while y not in coordinates_mapping:
+            y = input("The Y coordinate for your bomb is a col between A-J. Try again: ")
+
+        coordinates = [x, y]
+
+        x = coordinates[0]
+        y = coordinates_mapping[coordinates[1]]
+
+        if game.board_player.board[x][y] == " X ":
+            game.empty_board_enemy.board[x][y] = " X "
+        else:
+            was_hit = False
+        print_boards(game.board_enemy, game.empty_board_enemy, game.enemy.name, game.player.name)
 
 
 def calculate_total_ships(ships):

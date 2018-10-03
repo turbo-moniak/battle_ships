@@ -91,294 +91,48 @@ def there_is_ship_nearby_message(row, y_coordinates, col, i, j):
           " there is another ship nearby at " + str(i) + y_coordinates[j - 1].upper())
 
 
-def check_east(row, col, size, board, y_coordinates):
-    for i in range(row - 1, row + 1):
-        for j in range(col - 1, col + size + 1):
-            if board.board[i][j] != "___":
-                there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                return False
+def check_board(width, height, row, col, board, y_coordinates):
+
+    if 1 <= row < 10 and 1 <= col < 10:
+        for i in range(width):
+            for j in range(height):
+                if board.board[row][col] != "___":
+                    print(row, col)
+                    there_is_ship_nearby_message(row, y_coordinates, row, i, col)
+                    return False
+            row = row + 1
+            col = col + 1
     return True
 
 
-def check_proximity(row, col, size, direction, coordinates_mapping, board):
+def check_proximity(row, col, size, direction, coordinates_mapping, board, ):
     col = coordinates_mapping[col]
     y_coordinates = sorted(coordinates_mapping.keys())
 
-    if row == 1 and col == 1:
-        if direction == 's':
-            print("1. Checking row == 1 and col == 1 direction SOUTH")
-            for i in range(row, row + size + 1):
-                for j in range(col, col + 2):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == "n":
-            print("1. Checking row == 1 and col == 1 direction NORTH")
-            for i in range(row, row - size - 1, -1):
-                for j in range(col, col + 2):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'e':
-            print("1. Checking row == 1 and col == 1 direction EAST")
-            for i in range(row, row + 2):
-                for j in range(col, col + size + 1):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'w':
-            print("1. Checking row == 1 and col == 1 direction WEST")
-            for i in range (row, row + 1):
-                for j in range(col, col - size - 1, -1):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
+    result = True
 
-    if row == 1 and 1 < col < 10:
-        if direction == 'e' or direction == 'e':
-            print("2. Checking row == 1 and 1 < col < 10 direction EAST")
-            for i in range(row, row + 2):
-                for j in range(col - 1, col + size + 1):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'w':
-            print("2. Checking row == 1 and 1 < col < 10 direction WEST")
-            for i in range(row, row + 2):
-                for j in range(col + 1, col - size - 1, -1):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 's':
-            print("2. Checking row == 1 and 1 < col < 10 direction SOUTH")
-            for i in range(row, row + size + 1):
-                for j in range(col - 1, col + 2):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        print("Can't anchor your ship at " + str(row) + y_coordinates[col - 1].upper() +
-                              " there is another ship nearby.")
-                        return False
-        elif direction == 'n':
-            print("2. Checking row == 1 and 1 < col < 10 direction NORTH")
-            for i in range(row + 2, row - 1, -1):
-                for j in range(col - 1, col + 2):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
+    if direction == "n":
+        print("direction N")
+        row = row - size + 2
+        col = col - 1
+        result = check_board(size + 2, 3, row, col, board, y_coordinates)
+    if direction == "s":
+        print("direction S")
+        row = row - 1
+        col = col - 1
+        result = check_board(size + 2, 3, row, col, board, y_coordinates)
+    if direction == "w":
+        row = row - 1
+        col = col - size - 1
+        result = check_board(3, size + 2, row, col, board, y_coordinates)
+    if direction == "e":
+        row = row - 1
+        col = col + size + 1
+        result = check_board(3, size + 2, row, col, board, y_coordinates)
 
-    if row == 1 and col == 10:
-        if direction == 'w':
-            print("3. Checking row == 1 and col == 10 direction WEST")
-            for i in range(row, row + 2):
-                for j in range(col, col - 3, -1):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'e':
-            print("3. Checking row == 1 and col == 10 direction EAST")
-            for i in range(row, row + 2):
-                for j in range(col - 1, col + 1):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 's':
-            print("3. Checking row == 1 and col == 10 direction SOUTH")
-            for i in range(row, row + size + 1):
-                for j in range(col, col - 2, -1):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'n':
-            print("3. Checking row == 1 and col == 10 direction NORTH")
-            for i in range(row, row + size + 1):
-                for j in range(col - 1, col + 2):
-                    print(i, j)
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
+    return result
 
-    if 10 > row > 1 == col:
-        if direction == 'e':
-            print("4. Checking 10 > row > 1 == col direction EAST")
-            for i in range(row - 1, row + 2):
-                for j in range(col, col + 2):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'n':
-            print("4. Checking 10 > row > 1 == col direction NORTH")
-            for i in range(row + 1, row - size - 1, -1):
-                for j in range(col, col + 2):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 's':
-            print("4. Checking 10 > row > 1 == col direction SOUTH")
-            for i in range(row - 1, row + size + 1):
-                for j in range(col, col + 2):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'w':
-            print("4. Checking 10 > row > 1 == col direction WEST")
-            for i in range(row - 1, row + 2):
-                for j in range(col + 1, col - size - 1, -1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-    if 1 < row < 10 and 1 < col < 10:
-        if direction == 'e':
-            print("5. Checking 1 < row < 10 and 1 < col < 10 direction EAST")
-            for i in range(row - 1, row + 2):
-                for j in range(col - 1, col + size):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'w':
-            print("5. Checking 1 < row < 10 and 1 < col < 10 direction WEST")
-            for i in range(row - 1, row + 2):
-                for j in range(col + 1, col - size, -1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'n':
-            print("5. Checking 1 < row < 10 and 1 < col < 10 direction NORTH")
-            for i in range(row + 1, row - size - 1, -1):
-                for j in range(col - 1, col + 2):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 's':
-            print("5. Checking 1 < row < 10 and 1 < col < 10 direction SOUTH")
-            for i in range(row - 1, row + size + 1):
-                for j in range(col - 1, col + 2):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-    if 1 < row < 10 and col == 10:
-        if direction == 's':
-            print("6. Checking 1 < row < 10 and col == 10 direction SOUTH")
-            for i in range(row - 1, row + size + 1):
-                for j in range(col - 1, col + 1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'n':
-            print("6. Checking 1 < row < 10 and col == 10 direction NORTH")
-            for i in range(row + 1, row - size - 1, -1):
-                for j in range(col - 1, col + 1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'w':
-            print("6. Checking 1 < row < 10 and col == 10 direction WEST")
-            for i in range(row - 1, row + 2):
-                for j in range(col, col - size - 1, -1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'e':
-            print("6. Checking 1 < row < 10 and col == 10 direction EAST")
-            for i in range(row - 1, row + 2):
-                for j in range(col - 1, col + size):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
 
-    if row == 10 and col == 1:
-        if direction == "n":
-            print("7. Checking row == 10 and col == 1 direction NORTH")
-            for i in range(row, row - size - 1, -1):
-                for j in range(col, col + 2):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        if direction == 'e':
-            print("7. Checking row == 10 and col == 1 direction EAST")
-            for i in range(row, row - 2, -1):
-                for j in range(col, col + size + 1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        if direction == 's':
-            print("7. Checking row == 10 and col == 1 direction SOUTH")
-            for i in range(row - 1, row + size):
-                for j in range(col, col + 3):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        if direction == 'w':
-            print("7. Checking row == 10 and col == 1 direction WEST")
-            for i in range(row, row - 2, -1):
-                for j in range(col + 1, col - size, -1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-
-    if row == 10 and 1 < col < 10:
-        if direction == 'n':
-            print("8. Checking row == 10 and 1 < col < 10 direction NORTH")
-            for i in range(row, row - size - 1, -1):
-                for j in range(col - 1, col + 2):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 's':
-            print("8. Checking row == 10 and 1 < col < 10 direction SOUTH")
-            for i in range(row - 1, row + size):
-                for j in range(col - 1, col + 2):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'w':
-            print("8. Checking row == 10 and 1 < col < 10 direction WEST")
-            for i in range(row - 1, row + 1):
-                for j in range(col + 1, col - size - 1, -1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'e':
-            print("8. Checking row == 10 and 1 < col < 10 direction EAST")
-            for i in range(row - 1, row + 1):
-                for j in range(col - 1, col + size + 1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-    if row == 10 and col == 10:
-        if direction == 'n':
-            print("9. Checking row == 10 and col == 10 direction NORTH")
-            for i in range(row, row - size - 1, -1):
-                for j in range(col - 1, col + 1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 's':
-            print("9. Checking row == 10 and col == 10 direction SOUTH")
-            for i in range(row - 1, row  + 1):
-                for j in range(col - 1, col + 1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'w':
-            print("9. Checking row == 10 and col == 10 direction WEST")
-            for i in range(row, row - 2):
-                for j in range(col, col - size - 1, -1):
-                    if board.board[i][j] != "___":
-                        there_is_ship_nearby_message(row, y_coordinates, col, i, j)
-                        return False
-        elif direction == 'e':
-            print("9. Checking row == 10 and col == 10 direction EAST")
-            check_east(row, col, size, board, y_coordinates)
-    return True
 
 
 
