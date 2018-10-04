@@ -1,6 +1,7 @@
 from player import Player1, Player2
 from board import Own, Enemy, Board
 from game_operations import start_game, sink_ships
+from board_operations import print_boards
 
 
 class Game(object):
@@ -19,7 +20,8 @@ start_game(game)
 print(game.player.fleet)
 sink_ships(game)
 
-#test test
+# print_boards(game.board_player, game.empty_board_player, game.player.name, game.enemy.name)
+
 
 
 

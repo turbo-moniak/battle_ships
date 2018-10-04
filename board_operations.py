@@ -22,19 +22,18 @@ def create_board(size):
     return board
 
 
-def print_boards(own, enemy, player_name, enemy_name):
-
-
+def print_boards(game, player, board_player, enemy):
+    #own, enemy, player_name, enemy_name
 
     """Prints a string representation of a board."""
     print()
 
-    print(" " + str(player_name) + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + str(enemy_name))
-    for i in range(own.size):
+    print(" " + str(player.name) + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + str(enemy))
+    for i in range(board_player.size):
         if i == 0:
-            print(" ".join(own.board[i]) + "\t\t\t\t\t\t\t" + " ".join(enemy.board[i]))
+            print(" ".join(board_player.board[i]) + "\t\t\t\t\t\t" + " ".join(game.empty_board_enemy.board[i]))
         else:
-            print(" ".join(own.board[i]) + "\t\t\t\t\t\t\t" + " ".join(enemy.board[i]))
+            print(" ".join(board_player.board[i]) + "\t\t\t\t\t\t" + " ".join(game.empty_board_enemy.board[i]))
             print()
 
 
@@ -42,7 +41,7 @@ def place_north(row, col, size, board):
     """Places the ship towards North given first coordinates."""
 
     for i in range(size):
-        board[row][col] = " X "
+        board.board[row][col] = " X "
         row -= 1
     return board
 
@@ -51,7 +50,7 @@ def place_south(row, col, size, board):
     """Places the ship towards South given first coordinates."""
 
     for i in range(size):
-        board[row][col] = " X "
+        board.board[row][col] = " X "
         row += 1
     return board
 
@@ -60,7 +59,7 @@ def place_east(row, col, size, board):
     """Places the ship East given first coordinates."""
 
     for i in range(size):
-        board[row][col] = " X "
+        board.board[row][col] = " X "
         col += 1
     return board
 
@@ -69,7 +68,7 @@ def place_west(row, col, size, board):
     """Places the ship West given first coordinates."""
 
     for i in range(size):
-        board[row][col] = " X "
+        board.board[row][col] = " X "
         col -= 1
     return board
 
@@ -94,8 +93,8 @@ def check_board(width, height, row, col, board):
     for i in range(height):
         for j in range(width):
             if 1 <= row < 10 and 1 <= col < 10:
-                print(row, col, board.board[row][col])
-                if board.board[row][col] != "___":
+                print(row, col, board[row][col])
+                if board[row][col] != "___":
                     return False
             col = col + 1
         row = row + 1

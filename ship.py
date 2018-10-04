@@ -19,16 +19,21 @@ class Ship(object):
         self.direction = direction
 
     @staticmethod
-    def create_fleet(own_board, player_name, player_fleet, enemy_board, total_ships, available_ships, enemy_name):
+    def create_fleet(game, player, board_player, total_ships, available_ships):
+        # game, game.player, game.board_player, game.board_enemy, total_ships, available_ships
+
+        # game, game.enemy, game.board_enemy, game.board_player, total_ships, available_ships
 
         print(available_ships)
 
-        print("Total ships " + str(total_ships))
+        # print("Total ships " + str(total_ships))
 
-        for j in range(total_ships):
+        total_ships = 2
 
-            while len(player_fleet) < total_ships:
+        for i in range(total_ships):
 
+            while len(player.fleet) < total_ships:
+                print("Creating fleet for " + player.name)
                 ship_data = take_ship_data(available_ships,
                                            coordinates_mapping,
                                            available_directions)
@@ -46,8 +51,8 @@ class Ship(object):
                                                   size, quantity,
                                                   ship_position,
                                                   direction)
-                    if len(player_fleet) == 0:
-                        player_fleet.append(ship)
+                    if len(player.fleet) == 0:
+                        player.fleet.append(ship)
                         available_ships[name][0] -= 1
                     else:
                         if check_proximity(ship_position[0],
@@ -55,8 +60,8 @@ class Ship(object):
                                            size,
                                            direction,
                                            coordinates_mapping,
-                                           own_board):
-                            player_fleet.append(ship)
+                                           board_player.board):
+                            player.fleet.append(ship)
                             available_ships[name][0] -= 1
 
                 if name == "cruiser" and available_ships[name][0] > 0:
@@ -65,16 +70,16 @@ class Ship(object):
                                                quantity,
                                                ship_position,
                                                direction)
-                    if len(player_fleet) == 0:
-                        player_fleet.append(ship)
+                    if len(player.fleet) == 0:
+                        player.fleet.append(ship)
                         available_ships[name][0] -= 1
                     else:
                         if check_proximity(ship_position[0],
                                            ship_position[1],
                                            size, direction,
                                            coordinates_mapping,
-                                           own_board):
-                            player_fleet.append(ship)
+                                           board_player.board):
+                            player.fleet.append(ship)
                             available_ships[name][0] -= 1
 
                 if name == "destroyer" and available_ships[name][0] > 0:
@@ -83,16 +88,16 @@ class Ship(object):
                                                  size, quantity,
                                                  ship_position,
                                                  direction)
-                    if len(player_fleet) == 0:
-                        player_fleet.append(ship)
+                    if len(player.fleet) == 0:
+                        player.fleet.append(ship)
                         available_ships[name][0] -= 1
                     else:
                         if check_proximity(ship_position[0],
                                            ship_position[1],
                                            size, direction,
                                            coordinates_mapping,
-                                           own_board):
-                            player_fleet.append(ship)
+                                           board_player.board):
+                            player.fleet.append(ship)
                             available_ships[name][0] -= 1
 
                 if name == "submarine" and available_ships[name][0] > 0:
@@ -102,8 +107,8 @@ class Ship(object):
                                                  quantity,
                                                  ship_position,
                                                  direction)
-                    if len(player_fleet) == 0:
-                        player_fleet.append(ship)
+                    if len(player.fleet) == 0:
+                        player.fleet.append(ship)
                         available_ships[name][0] -= 1
                     else:
                         if check_proximity(ship_position[0],
@@ -111,14 +116,15 @@ class Ship(object):
                                            size,
                                            direction,
                                            coordinates_mapping,
-                                           own_board):
-                            player_fleet.append(ship)
+                                           board_player.board):
+                            player.fleet.append(ship)
                             available_ships[name][0] -= 1
 
-                own_board.board = update_board(own_board.board,
-                                               player_fleet,
-                                               coordinates_mapping)
-                print_boards(own_board, enemy_board, player_name, enemy_name)
+                board_player = update_board(board_player,
+                                            player.fleet,
+                                            coordinates_mapping)
+                print("Updated board " + player.name)
+                print_boards(game, player, board_player, game.player.name)
 
     @classmethod
     def create_battleship(cls, name, health_points, size, quantity, ship_position, direction):
