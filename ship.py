@@ -28,7 +28,7 @@ class Ship(object):
 
         # print("Total ships " + str(total_ships))
 
-        total_ships = 2
+        total_ships = 1
 
         for i in range(total_ships):
 
@@ -124,7 +124,7 @@ class Ship(object):
                                             player.fleet,
                                             coordinates_mapping)
                 print("Updated board " + player.name)
-                print_boards(game, player, board_player, game.player.name)
+                print_boards(game, player, board_player, game.enemy.name, game.empty_board_enemy)
 
     @classmethod
     def create_battleship(cls, name, health_points, size, quantity, ship_position, direction):

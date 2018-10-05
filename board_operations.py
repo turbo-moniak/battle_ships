@@ -22,8 +22,7 @@ def create_board(size):
     return board
 
 
-def print_boards(game, player, board_player, enemy):
-    #own, enemy, player_name, enemy_name
+def print_boards(game, player, board_player, enemy, board_enemy):
 
     """Prints a string representation of a board."""
     print()
@@ -31,9 +30,9 @@ def print_boards(game, player, board_player, enemy):
     print(" " + str(player.name) + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + str(enemy))
     for i in range(board_player.size):
         if i == 0:
-            print(" ".join(board_player.board[i]) + "\t\t\t\t\t\t" + " ".join(game.empty_board_enemy.board[i]))
+            print(" ".join(board_player.board[i]) + "\t\t\t\t\t\t" + " ".join(board_enemy.board[i]))
         else:
-            print(" ".join(board_player.board[i]) + "\t\t\t\t\t\t" + " ".join(game.empty_board_enemy.board[i]))
+            print(" ".join(board_player.board[i]) + "\t\t\t\t\t\t" + " ".join(board_enemy.board[i]))
             print()
 
 
