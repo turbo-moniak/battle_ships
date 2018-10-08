@@ -33,32 +33,28 @@ def take_aim(coordinates_mapping):
     return coordinates
 
 
-def bomb_your_enemy(game, bomber, enemy_board, coordinates_mapping, enemy_name, board_bomber, empty_bomber_board):
+def bomb_your_enemy(coordinates_mapping, bomber, bomber_board, empty_bomber_board, enemy_name, enemy_board):
 
-    was_hit = True
+    print(bomber.name + "'s turn")
+    print_boards(bomber, bomber_board, enemy_name, empty_bomber_board)
 
-    while was_hit:
+    coordinates = take_aim(coordinates_mapping)
 
-        print(bomber.name + "'s turn")
-        print_boards(bomber, board_bomber, enemy_name, empty_bomber_board)
+    x = coordinates[0]
+    y = coordinates_mapping[coordinates[1]]
 
-        coordinates = take_aim(coordinates_mapping)
-
-        x = coordinates[0]
-        y = coordinates_mapping[coordinates[1]]
-
-        if enemy_board.board[x][y] == " X ":
-            was_hit = True
-            empty_bomber_board.board[x][y] = " X "
-            enemy_board.board[x][y] = " O "
-            check_if_sunken(x, y, enemy_board)
-        else:
-            empty_bomber_board.board[x][y] = " + "
-            was_hit = False
-            print_boards(bomber, board_bomber, enemy_name, empty_bomber_board)
-            print()
-            print()
-            print(bomber.name + " you missed!")
+    if enemy_board.board[x][y] == " X ":
+        was_hit = True
+        empty_bomber_board.board[x][y] = " X "
+        check_if_sunken(x, y, enemy_board)
+        enemy_board.board[x][y] = " 0 "
+        print_boards(bomber, bomber_board, enemy_name, empty_bomber_board)
+    else:
+        was_hit = False
+        empty_bomber_board.board[x][y] = " + "
+        print_boards(bomber, bomber_board, enemy_name, empty_bomber_board)
+        print()
+        print(bomber.name + " you missed")
 
     return was_hit
 
@@ -72,34 +68,35 @@ def sink_ships(game):
 
     total_ships = calculate_total_ships(available_ships)
 
-    was_hit = bomb_your_enemy(game,
-                              game.player,
-                              game.board_enemy,
-                              coordinates_mapping,
-                              game.enemy.name,
-                              game.board_player,
-                              game.empty_board_player)
+    player_one = True
 
     while sunken_ships_player < total_ships or sunken_ships_enemy < total_ships:
 
-        print("Was hit value is " + str(was_hit))
-
-        if was_hit:
-            was_hit = bomb_your_enemy(game,
+        if player_one:
+            was_hit = bomb_your_enemy(coordinates_mapping,
                                       game.player,
-                                      game.board_enemy,
-                                      coordinates_mapping,
+                                      game.board_player,
+                                      game.empty_board_player,
                                       game.enemy.name,
-                                      game.board_player,
-                                      game.empty_board_player)
-        else:
-            was_hit = bomb_your_enemy(game,
+                                      game.board_enemy)
+
+
+        if not was_hit:
+            player_one = not player_one
+            was_hit = bomb_your_enemy(coordinates_mapping,
                                       game.enemy,
-                                      game.board_player,
-                                      coordinates_mapping,
-                                      game.player.name,
                                       game.board_enemy,
-                                      game.empty_board_enemy)
+                                      game.empty_board_enemy,
+                                      game.player.name,
+                                      game.board_player)
+
+
+
+
+
+
+
+
 
 
 def calculate_total_ships(ships):
@@ -117,4 +114,3 @@ def calculate_sunken_ships(ships):
 
 def check_if_sunken(x, y, board):
     print("not implemented yet")
-    pass
