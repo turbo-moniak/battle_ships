@@ -68,21 +68,18 @@ def sink_ships(game):
 
     total_ships = calculate_total_ships(available_ships)
 
-    player_one = True
+    player_turn = True
 
     while sunken_ships_player < total_ships or sunken_ships_enemy < total_ships:
 
-        if player_one:
+        if player_turn:
             was_hit = bomb_your_enemy(coordinates_mapping,
                                       game.player,
                                       game.board_player,
                                       game.empty_board_player,
                                       game.enemy.name,
                                       game.board_enemy)
-
-
-        if not was_hit:
-            player_one = not player_one
+        else:
             was_hit = bomb_your_enemy(coordinates_mapping,
                                       game.enemy,
                                       game.board_enemy,
@@ -90,13 +87,8 @@ def sink_ships(game):
                                       game.player.name,
                                       game.board_player)
 
-
-
-
-
-
-
-
+        if not was_hit:
+            player_turn = not player_turn
 
 
 def calculate_total_ships(ships):
