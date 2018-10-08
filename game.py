@@ -7,12 +7,12 @@ from board_operations import print_boards
 class Game(object):
     def __init__(self):
         self.player = Player1()
-        self.board_player = Own()
-        self.empty_board_player = Board()
+        self.board_player = Own()#stores player1 fleet
+        self.empty_board_player = Board()#shows hit player2 ships
 
         self.enemy = Player2()
-        self.board_enemy = Enemy()
-        self.empty_board_enemy = Board()
+        self.board_enemy = Enemy()#stores player2 fleet
+        self.empty_board_enemy = Board()#shows hit player1 ships
 
 
 game = Game()
@@ -20,7 +20,6 @@ start_game(game)
 print(game.player.fleet)
 sink_ships(game)
 
-# print_boards(game.board_player, game.empty_board_player, game.player.name, game.enemy.name)
 
 
 

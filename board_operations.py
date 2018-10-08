@@ -22,7 +22,7 @@ def create_board(size):
     return board
 
 
-def print_boards(game, player, board_player, enemy, board_enemy):
+def print_boards(player, board_player, enemy, board_enemy):
 
     """Prints a string representation of a board."""
     print()

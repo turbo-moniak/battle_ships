@@ -1,6 +1,4 @@
-1. When bombing enemy's board the empty board is not updated
-2. print_boards(game, player, board_player, enemy):
-    where game is an object, player
+1. After updating board for the second player both boards are printed with the player's name
 
 
 
