@@ -33,7 +33,7 @@ def take_aim(coordinates_mapping):
     return coordinates
 
 
-def bomb_your_enemy(coordinates_mapping, bomber, bomber_board, empty_bomber_board, enemy_name, enemy_board):
+def bomb_your_enemy(coordinates_mapping, bomber, bomber_board, empty_bomber_board, enemy_name, enemy_board, sunken_ships):
 
     print(bomber.name + "'s turn")
     print_boards(bomber, bomber_board, enemy_name, empty_bomber_board)
@@ -46,9 +46,11 @@ def bomb_your_enemy(coordinates_mapping, bomber, bomber_board, empty_bomber_boar
     if enemy_board.board[x][y] == " X ":
         was_hit = True
         empty_bomber_board.board[x][y] = " X "
-        check_if_sunken(x, y, enemy_board)
         enemy_board.board[x][y] = " 0 "
         print_boards(bomber, bomber_board, enemy_name, empty_bomber_board)
+        if was_hit:
+            check_if_sunken(x, y, enemy_board, sunken_ships)
+
     else:
         was_hit = False
         empty_bomber_board.board[x][y] = " + "
@@ -78,14 +80,16 @@ def sink_ships(game):
                                       game.board_player,
                                       game.empty_board_player,
                                       game.enemy.name,
-                                      game.board_enemy)
+                                      game.board_enemy,
+                                      sunken_ships_enemy)
         else:
             was_hit = bomb_your_enemy(coordinates_mapping,
                                       game.enemy,
                                       game.board_enemy,
                                       game.empty_board_enemy,
                                       game.player.name,
-                                      game.board_player)
+                                      game.board_player,
+                                      sunken_ships_player)
 
         if not was_hit:
             player_turn = not player_turn
@@ -99,10 +103,85 @@ def calculate_total_ships(ships):
     return total_ships
 
 
+def find_anchor(row, col, player_board):
+
+    anchor = 0
+
+    if player_board.board[row - 1][col] == " X ":
+        width = 1
+        height = 4
+        direction = 1 # vertical
+    else:
+        width = 4
+        height = 1
+        direction = 0 #horizontal
+
+    for i in range(width):
+        for j in range(height):
+            if player_board.board[row][col] == " X " or player_board.board[row][col] == " 0 ":
+                row = row - 1
+            else:
+                anchor = row + 1
+
+    return [direction, anchor]
+
+
 def calculate_sunken_ships(ships):
     sunken_ships = sum(ships.values())
     return sunken_ships
 
 
-def check_if_sunken(x, y, board):
-    print("not implemented yet")
+def check_size(direction, anchor, player_board, col):
+
+    size = 0
+
+    if direction == 1: # vertical down
+        for i in range(4):
+            for j in range(1):
+                if player_board.board[anchor][col] == " X " or player_board.board[anchor][col] == " 0 ":
+                    size = size + 1
+            anchor = anchor + 1
+
+    return size
+
+
+def check_hits(anchor, col, player_board, size, direction):
+
+    hits = 0
+
+    if direction == 1: # vertical down
+        for i in range(size):
+            for j in range(1):
+                if player_board.board[anchor][col] == " 0 ":
+                    hits = hits + 1
+            anchor = anchor + 1
+
+    return hits
+
+
+def check_if_sunken(row, col, player_board, sunken_ships):
+
+    data = find_anchor(row, col, player_board)
+    direction = data[0]
+    anchor = data[1]
+    print("Anchor " + str(anchor))
+
+    size = check_size(direction, anchor, player_board, col)
+    hits = check_hits(anchor, col, player_board, size, direction)
+
+
+    # direction == 1 vertical
+    # direction == 0 horizontal
+
+
+
+
+
+
+
+
+
+
+
+
+
